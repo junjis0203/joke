@@ -1,0 +1,14 @@
+{
+  "name": "joke",
+  "version": "0.1.0",
+  "description": "JOKE is reference implementation for JokeScript",
+  "main": "./lib/joke.js",
+  "type": "module",
+  "exports": "./lib/joke.js",
+  "scripts": {
+    "test": "node --experimental-modules test.js"
+  },
+  "keywords": [],
+  "author": "Junji Sawada",
+  "license": "ISC"
+}
