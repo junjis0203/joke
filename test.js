@@ -49,6 +49,8 @@ function runAndVerify(checkProgramDir, sourceFile) {
 
 async function check(checkProgramDir) {
     const dir = await fs.promises.opendir(checkProgramDir);
+    let okCount = 0;
+    let ngCount = 0;
     for await (const dirent of dir) {
         if (!dirent.name.endsWith('.js')) {
             continue;
@@ -58,15 +60,18 @@ async function check(checkProgramDir) {
         try {
             await runAndVerify(checkProgramDir, sourceFile);
             console.log(`${sourceFile}: OK`);
+            okCount++;
         } catch(e) {
             console.log(`${sourceFile}: NG`);
             console.error(`${e.name}: ${e.message}`);
-            throw e;
+            ngCount++;
         }
     }
+    console.log(`total: ${okCount + ngCount}, OK: ${okCount}, NG: ${ngCount}`);
+    return ngCount > 0 ? 1 : 0;
 }
 
 check('./step')
-.catch(err => {
-    process.exit(1);
+.then(exitCode => {
+    process.exit(exitCode);
 });
