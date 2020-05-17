@@ -32,16 +32,19 @@ function runAndVerify(checkProgramDir, sourceFile) {
                 let actual = await fs.promises.readFile(fakeStdoutFile, 'utf8');
         
                 // consider CRLF
-                expect = expect.replace('\r\n', '\n');
-                actual = actual.replace('\r\n', '\n');
+                expect = expect.replace(/\r\n/g, '\n');
+                actual = actual.replace(/\r\n/g, '\n');
                 if (expect == actual) {
                     resolve();
                 } else {
+                    ok = false;
                     reject(new Error('Program output is not expected'));
                 }
             }
 
-            fs.promises.unlink(fakeStdoutFile)
+            if (ok) {
+                fs.promises.unlink(fakeStdoutFile)
+            }
         });
         fakeStdout.end();
     });
