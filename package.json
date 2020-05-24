@@ -6,6 +6,7 @@
   "type": "module",
   "exports": "./lib/joke.js",
   "scripts": {
+    "joke": "node --experimental-modules joke.js",
     "test": "node --experimental-modules test.js"
   },
   "keywords": [],
