@@ -3,6 +3,7 @@ import fs from 'fs';
 import readline from 'readline';
 
 let debug = false;
+let script; // cannot use 'eval' in strict mode
 let argc = 2;
 while (true) {
     if (!process.argv[argc] || process.argv[argc][0] != '-') {
@@ -13,15 +14,29 @@ while (true) {
     case '-d':
         debug = true;
         break;
+    case '-e':
+        argc++;
+        script = process.argv[argc];
+        break;
     case '-h':
         console.log('Usage: node joke.js [options] [sourceFile]\n');
         console.log('Options:');
         console.group();
-        console.log('-d\tEnable debug mode (dump compiler output)')
+        console.log('-d\t\tEnable debug mode (dump compiler output)');
+        console.log('-e script\tRun script');
         console.groupEnd();
         process.exit(0);
     }
     argc++;
+}
+
+function runScript(sourceFile, data) {
+    try {
+        const joke = new JokeEngine(debug);
+        joke.run(sourceFile, data);
+    } catch (e) {
+        console.error(`${e.name}: ${e.message}`);
+    }
 }
 
 function runSourceFile(sourceFile) {
@@ -30,13 +45,8 @@ function runSourceFile(sourceFile) {
             console.error(err);
             return;
         }
-    
-        try {
-            const joke = new JokeEngine(debug);
-            joke.run(sourceFile, data);
-        } catch (e) {
-            console.error(`${e.name}: ${e.message}`);
-        }
+
+        runScript(sourceFile, data);
     });
 }
 
@@ -64,6 +74,8 @@ function executeRepl() {
 const sourceFile = process.argv[argc];
 if (sourceFile) {
     runSourceFile(sourceFile);    
+} else if (script) {
+    runScript('<eval>', script);
 } else {
     executeRepl();
 }
