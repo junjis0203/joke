@@ -13,3 +13,4 @@ Self hosting.
 
 * Can call "native" method
 * Variable(const and let. no var and don't allow no declaration)
+* Arithmetic operation.
