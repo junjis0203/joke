@@ -30,12 +30,22 @@ while (true) {
     argc++;
 }
 
+function printError(e) {
+    if (e.message.startsWith('[JOKE]')) {
+        // program's bug. show only message
+        console.error(`${e.name}: ${e.message}`);
+    } else {
+        // JOKE's bug. show stack trace
+        console.error(e);
+    }
+}
+
 function runScript(sourceFile, data) {
     try {
         const joke = new JokeEngine(debug);
         joke.run(sourceFile, data);
     } catch (e) {
-        console.error(`${e.name}: ${e.message}`);
+        printError(e);
     }
 }
 
@@ -61,7 +71,7 @@ function executeRepl() {
         try {
             joke.run('<stdin>', line);
         } catch (e) {
-            console.error(`${e.name}: ${e.message}`);
+            printError(e);
         }
         rl.prompt();
     });
