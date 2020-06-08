@@ -55,20 +55,30 @@ async function check(checkProgramDir) {
     let okCount = 0;
     let ngCount = 0;
     for await (const dirent of dir) {
-        if (!dirent.name.endsWith('.js')) {
-            continue;
+        const subdirName = dirent.name;
+        console.log(subdirName);
+        console.group();
+
+        const subdirPath = path.join(checkProgramDir, subdirName);
+        const subdir = await fs.promises.opendir(subdirPath);
+        for await (const subdirent of subdir) {
+            if (!subdirent.name.endsWith('.js')) {
+                continue;
+            }
+    
+            const sourceFile = subdirent.name;
+            try {
+                await runAndVerify(subdirPath, sourceFile);
+                console.log(`${sourceFile}: OK`);
+                okCount++;
+            } catch(e) {
+                console.log(`${sourceFile}: NG`);
+                console.error(`${e.name}: ${e.message}`);
+                ngCount++;
+            }
         }
 
-        const sourceFile = dirent.name;
-        try {
-            await runAndVerify(checkProgramDir, sourceFile);
-            console.log(`${sourceFile}: OK`);
-            okCount++;
-        } catch(e) {
-            console.log(`${sourceFile}: NG`);
-            console.error(`${e.name}: ${e.message}`);
-            ngCount++;
-        }
+        console.groupEnd();
     }
     console.log(`total: ${okCount + ngCount}, OK: ${okCount}, NG: ${ngCount}`);
     return ngCount > 0 ? 1 : 0;
