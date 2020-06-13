@@ -11,7 +11,6 @@ Self hosting.
 
 # Current status
 
-* Can call "native" method
 * Variable(const and let. no var and don't allow no declaration)
-* Arithmetic operation
+* Operator(not implement all)
 * Function(declaration and expression. no arrow function yet)
