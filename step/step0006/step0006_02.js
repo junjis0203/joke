@@ -1,3 +1,6 @@
+/*
+if-else if-else.
+*/
 function test(a, b) {
     console.log('start');
     if (a > b) {
