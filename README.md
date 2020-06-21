@@ -14,6 +14,8 @@ Self hosting.
 * Variable(const and let. no var and don't allow no declaration)
 * Operator(not implement all)
 * if statement.
+* switch statement.
 * while statement(no do-while)
 * for statement(no for-of yet)
+* break/continue.
 * Function(declaration and expression. no arrow function yet)
