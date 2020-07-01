@@ -19,3 +19,4 @@ Self hosting.
 * for statement(no for-of yet)
 * break/continue.
 * Function(declaration and expression. no arrow function yet)
+* Object.
