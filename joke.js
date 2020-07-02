@@ -2,8 +2,10 @@ import JokeEngine from 'joke';
 import fs from 'fs';
 import readline from 'readline';
 
-let debug = false;
 let script; // cannot use 'eval' in strict mode
+let dumpParserResult = false;
+let dumpAssemblerResult = false;
+let traceVm = false;
 let argc = 2;
 while (true) {
     if (!process.argv[argc] || process.argv[argc][0] != '-') {
@@ -11,24 +13,44 @@ while (true) {
     }
 
     switch (process.argv[argc]) {
-    case '-d':
-        debug = true;
-        break;
     case '-e':
         argc++;
         script = process.argv[argc];
+        break;
+    case '-d':
+        dumpParserResult = true;
+        dumpAssemblerResult = true;
+        traceVm = true;
+        break;
+    case '-P':
+        dumpParserResult = true;
+        break;
+    case '-A':
+        dumpAssemblerResult = true;
+        break;
+    case '-T':
+        traceVm = true;
         break;
     case '-h':
         console.log('Usage: node joke.js [options] [sourceFile]\n');
         console.log('Options:');
         console.group();
-        console.log('-d\t\tEnable debug mode (dump compiler output)');
         console.log('-e script\tRun script');
+        console.log('-d\t\tEnable below three options');
+        console.log('-P\t\tDump parser result');
+        console.log('-A\t\tDump assembler result');
+        console.log('-T\t\tTrace VM');
         console.groupEnd();
         process.exit(0);
     }
     argc++;
 }
+
+const debug = {
+    dumpParserResult,
+    dumpAssemblerResult,
+    traceVm
+};
 
 function printError(e) {
     if (e.message.startsWith('[JOKE]')) {
