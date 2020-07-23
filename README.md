@@ -20,3 +20,4 @@ Self hosting.
 * break/continue.
 * Function(declaration and expression. no arrow function yet)
 * Object.
+* Class.
