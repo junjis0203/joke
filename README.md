@@ -18,6 +18,7 @@ Self hosting.
 * while statement(no do-while)
 * for statement(no for-of yet)
 * break/continue.
-* Function(declaration and expression. no arrow function yet)
+* Function(declaration and expression)
+* Arrow function(not implement binding this)
 * Object.
 * Class.
