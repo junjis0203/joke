@@ -16,9 +16,10 @@ Self hosting.
 * if statement.
 * switch statement.
 * while statement(no do-while)
-* for statement(no for-of yet)
+* for statement(also for-of).
 * break/continue.
 * Function(declaration and expression)
 * Arrow function(not implement binding this)
 * Object.
 * Class.
+* Array.
