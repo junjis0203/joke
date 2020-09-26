@@ -19,7 +19,7 @@ Self hosting.
 * for statement(also for-of).
 * break/continue.
 * Function(declaration and expression)
-* Arrow function(not implement binding this)
+* Arrow function(not implement lexical this)
 * Object.
 * Class.
 * Array.
