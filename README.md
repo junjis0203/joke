@@ -18,6 +18,7 @@ Self hosting.
 * while statement(no do-while)
 * for statement(also for-of).
 * break/continue.
+* try-catch.
 * Function(declaration and expression)
 * Arrow function(not implement lexical this)
 * Object.

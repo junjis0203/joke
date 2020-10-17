@@ -53,11 +53,15 @@ const debug = {
 };
 
 function printError(e) {
-    if (e.message.startsWith('[JOKE]')) {
-        // program's bug. show only message
-        console.error(`${e.name}: ${e.message}`);
+    if (e instanceof Error) {
+        if (e.message.startsWith('[JOKE]')) {
+            // program's bug. show only message
+            console.error(`${e.name}: ${e.message}`);
+        } else {
+            // JOKE's bug. show stack trace
+            console.error(e);
+        }
     } else {
-        // JOKE's bug. show stack trace
         console.error(e);
     }
 }
