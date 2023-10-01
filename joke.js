@@ -1,6 +1,17 @@
 import JokeEngine from 'joke';
 import fs from 'fs';
-import readline from 'readline';
+
+function printHelp() {
+    console.log('Usage: node joke.js [options] [sourceFile]\n');
+    console.log('Options:');
+    console.group();
+    console.log('-e script\tRun script');
+    console.log('-d\t\tEnable below three options');
+    console.log('-P\t\tDump parser result');
+    console.log('-A\t\tDump assembler result');
+    console.log('-T\t\tTrace VM');
+    console.groupEnd();
+}
 
 let script; // cannot use 'eval' in strict mode
 let dumpParserResult = false;
@@ -32,15 +43,7 @@ while (true) {
         traceVm = true;
         break;
     case '-h':
-        console.log('Usage: node joke.js [options] [sourceFile]\n');
-        console.log('Options:');
-        console.group();
-        console.log('-e script\tRun script');
-        console.log('-d\t\tEnable below three options');
-        console.log('-P\t\tDump parser result');
-        console.log('-A\t\tDump assembler result');
-        console.log('-T\t\tTrace VM');
-        console.groupEnd();
+        printHelp();
         process.exit(0);
     }
     argc++;
@@ -86,32 +89,11 @@ function runSourceFile(sourceFile) {
     });
 }
 
-function executeRepl() {
-    const joke = new JokeEngine(debug);
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        prompt: '> '
-    });
-    rl.on('line', (line) => {
-        try {
-            joke.run('<stdin>', line);
-        } catch (e) {
-            printError(e);
-        }
-        rl.prompt();
-    });
-    rl.on('close', () => {
-        process.exit(0);
-    })
-    rl.prompt();
-}
-
 const sourceFile = process.argv[argc];
 if (sourceFile) {
     runSourceFile(sourceFile);    
 } else if (script) {
     runScript('<eval>', script);
 } else {
-    executeRepl();
+    printHelp();
 }
